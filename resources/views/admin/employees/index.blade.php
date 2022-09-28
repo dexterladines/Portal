@@ -32,7 +32,7 @@
     <div class="container-fluid">
         @include('messages.alerts')
         <div class="row">
-            <div class="col-lg-8 mx-auto">
+            <div class="col-lg-11 mx-auto">
                 <div class="card card-primary">
                     <div class="card-header">
                         <div class="card-title text-center">
@@ -42,12 +42,14 @@
                     </div>
                     <div class="card-body">
                         @if ($employees->count())
-                        <table class="table table-bordered table-hover" id="dataTable">
+                        <table class="table table-bordered table-hover text-center" id="dataTable">
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>Employee ID</th>
+                                    <th>Email</th>
                                     <th>Name</th>
-                                    {{-- <th>Department</th> --}}
+                                    <th>Department</th>
                                     <th>Designation</th>
                                     <th>Join Date</th>
                                     <th>Actions</th>
@@ -57,18 +59,26 @@
                                 @foreach ($employees as $index => $employee)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
+                                    <td>{{$employee->emp_id}}</td>
+                                    <td>{{$employee->email}}</td>
                                     <td>{{ $employee->first_name.' '.$employee->last_name }}</td>
-                                    {{-- <td>{{ $employee->department->name }}</td> --}}
+                                    <td>{{ $employee->department_id }}</td>
                                     <td>{{ $employee->desg }}</td>
                                     <td>{{ $employee->join_date->format('d M, Y') }}</td>
                                     
                                     <td>
-                                        <a href="{{ route('admin.employees.profile', $employee->id) }}" class="btn btn-flat btn-info">View</a>
-                                        <button 
-                                        class="btn btn-flat btn-danger"
+                                        <a href="{{ route('admin.employees.profile', $employee->id) }}" >
+                                            <i class="btn btn-md text-black ion-eye"></i>
+                                        </a>
+                                        <a href="{{ route('admin.employees.profile-edit', $employee->id) }}" >
+                                            <i class="btn btn-md text-primary ion-edit"></i>
+                                        </a>
+                                        <a 
+                                       
                                         data-toggle="modal" 
                                         data-target="#deleteModalCenter{{ $index + 1 }}"
-                                        >Delete</button>
+                                        ><i class="btn btn-md text-danger ion-trash-b"></i>
+                                    </a>
                                     </td>
                                 </tr>
                                 @endforeach

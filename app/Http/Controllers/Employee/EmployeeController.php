@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class EmployeeController extends Controller
 {
@@ -50,6 +51,19 @@ class EmployeeController extends Controller
        
         $employee->dob = $request->dob;
         $employee->sex = $request->gender;
+        $employee->nickname = $request->nickname;
+        $employee->civil_status = $request->civil_status;
+        $employee->contact_no = $request->contact_no;
+        $employee->birthplace = $request->birthplace;
+        $employee->height = $request->height;
+        $employee->weight = $request->weight;
+        $employee->religion = $request->religion;
+        $employee->citizenship = $request->citizenship;
+        $employee->econtact_no = $request->econtact_no;
+        $employee->ename = $request->ename;
+        $employee->rel = $request->rel;
+        $employee->pres_add = $request->pres_add;
+        $employee->pro_add = $request->pro_add;
        
         
         // if ($request->hasFile('photo')) {
@@ -78,7 +92,8 @@ class EmployeeController extends Controller
         //     $employee->photo = $filename_store;
         // }
         $employee->save();
-        $request->session()->$request->flash('success', 'Your profile has been successfully updated!');
+        Alert::success('Success', 'Your Profile has been  Successfully Updated!');
+      
         return redirect()->route('employee.profile');
     }
 }

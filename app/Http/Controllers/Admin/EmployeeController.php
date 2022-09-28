@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class EmployeeController extends Controller
 {
@@ -60,7 +61,20 @@ class EmployeeController extends Controller
             'department_id' => 'required',
             'email' => 'required|email',
             // 'photo' => 'image|nullable',
-            'password' => 'required|confirmed|min:6'
+            'password' => 'required|confirmed|min:6',
+            // 'nickname' => 'required',
+            // 'civil_status' => 'required',
+            // 'contact_no' => 'required',
+            // 'birthplace' => 'required',
+            // 'height' => 'required',
+            // 'weight' => 'required',
+            // 'religion' => 'required',
+            // 'citizenship' => 'required',
+            // 'econtact_no' => 'required',
+            // 'ename' => 'required',
+            // 'rel' => 'required',
+            // 'pres_add' => 'required',
+            // 'pro_ad' => 'required'
         ]);
         //$password =  Hash::make(Str::random(18));
         
@@ -102,7 +116,18 @@ class EmployeeController extends Controller
             'department_id' => $request->department_id, 
             'join_date' => $request->join_date,
             'desg' => $request->desg,
-            'department_id' => $request->department_id
+            // 'nickname' => $request->nickname,
+            // 'civil_status' => $request->civil_status,
+            // 'contact_no' => $request->contact_no,
+            // 'height' => $request->height,
+            // 'weight' => $request->weight,
+            // 'religion' => $request->religion,
+            // 'citizenship' => $request->citizenship,
+            // 'econtact_no' => $request->econtact_no,
+            // 'ename' => $request->ename,
+            // 'rel' => $request->rel,
+            // 'pres_add' => $request->pres_add,
+            // 'pro_add' => $request->pro_add,
             // 'photo'  => 'user.png'
         ];
             
@@ -129,7 +154,7 @@ class EmployeeController extends Controller
         
         Employee::create($employeeDetails);
         
-        $request->session()->flash('success', 'Employee has been successfully added');
+        Alert::success('Success', 'User has been  Successfully Added');
         return back();
     }
 
@@ -151,9 +176,16 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($employee_id)
     {
-        //
+        $data = [
+            'user' => User::all(),
+            'employee' => Employee::findOrFail($employee_id),
+            'departments' => Department::all(),
+            'desgs' => ['Junior Developer', 'Mid-Level Developer', 'Senior Developer']
+        ];
+
+        return view('admin.employees.profile-edit')->with($data);
     }
 
     /**
@@ -163,9 +195,41 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $employee_id)
     {
-        //
+        $this->validate($request, [
+            'email' =>'required',
+            'emp_id' => 'required',
+            'first_name' => 'required', 
+            'middle_name' => 'nullable', 
+            'last_name' => 'required',
+            'ext' => 'nullable',
+            'sex' => 'required', 
+            'dob' => 'required', 
+            'department_id' => 'required', 
+            'join_date' => 'required',
+            'desg' => 'required',
+        ]);
+
+        $employee = Employee::findOrFail($employee_id);
+       
+        $employee->emp_id = $request->emp_id;
+        $employee->email  = $request->email;   
+        $employee->first_name = $request->first_name;
+        $employee->middle_name = $request->middle_name;
+        $employee->last_name = $request->last_name;
+        $employee->ext = $request->ext;
+        $employee->sex = $request->sex;
+        $employee->dob = $request->dob;
+        $employee->department_id = $request->department_id;
+        $employee->join_date = $request->join_date;
+        $employee->desg = $request->desg;
+    
+
+        $employee->save();
+        Alert::success('Success', 'Your Profile has been  Successfully Updated!');
+      
+        return redirect()->route('admin.employees.index');
     }
 
     /**
@@ -174,8 +238,18 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($employee_id)
     {
-        //
+        $employee = Employee::findOrFail($employee_id);
+        $user = User::findOrFail($employee->user_id);
+        // detaches all the roles
+       
+        $employee->delete();
+        $user->roles()->detach();
+        // deletes the users
+        $user->delete();
+        Alert::success('Success', 'User Record has been Successfully Deleted');
+        // request()->session()->flash('success', 'Employee record has been successfully deleted');
+        return back();
     }
 }

@@ -1,5 +1,5 @@
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-primary elevation-4" style = "z-index: 1040 !important;">
+<aside class="main-sidebar sidebar-dark-danger elevation-4" style = "z-index: 1040 !important;">
     <!-- Brand Logo -->
     <a 
     @can('admin-access')

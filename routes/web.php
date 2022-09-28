@@ -34,8 +34,10 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware(['auth','
 Route::get('/employees/list-employees', [EmployeeController::class, 'index'])->name('employees.index');
 Route::get('/employees/add-employee', [EmployeeController::class, 'create'])->name('employees.create');
 Route::post('/employees', [EmployeeController::class, 'store'])->name('employees.store');
+Route::get('/employees/profile-edit/{employee_id}', [EmployeeController::class, 'edit'])->name('employees.profile-edit');
+Route::put('/employees/profiles/{employee_id}', [EmployeeController::class, 'update'])->name('employees.profile-update');
 Route::get('/employees/profile/{employee_id}', [EmployeeController::class, 'show'])->name('employees.profile');
-Route::delete('/employees/{employee_id}', 'EmployeeController@destroy')->name('employees.delete');
+Route::delete('/employees/{employee_id}', [EmployeeController::class,'destroy'])->name('employees.delete');
 });
 
 //USER

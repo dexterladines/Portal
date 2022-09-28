@@ -1,6 +1,3 @@
-
-
-
 @extends('layouts.app')        
 
 @section('content')
@@ -12,7 +9,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Add Employee</h1>
+               
             </div>
             <!-- /.col -->
             <div class="col-sm-6">
@@ -34,217 +31,256 @@
 <!-- /.content-header -->
 
 <!-- Main content -->
-<section class="content">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 col-md-8 mx-auto">
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <h5 class="text-center mt-2">Add new employee</h5>
-                    </div>
-                    @include('messages.alerts')
-                    <form action="{{ route('admin.employees.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('POST')
-                    <div class="card-body">
-                        
-                            <fieldset>
-                                <div class="form-group">
-                                    <label for="">Employee ID</label>
-                                    <input type="text" name="emp_id" value="" class="form-control">
-                                    @error('emp_id')
-                                        <div class="text-danger">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Email</label>
-                                    <input type="text" name="email" value="{{ old('email') }}" class="form-control">
-                                    @error('email')
-                                        <div class="text-danger">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="">Department</label>
-                                    <select name="department_id" class="form-control">
-                                        <option hidden disabled selected value> -- select an option -- </option>
-                                        @foreach ($departments as $department)
-                                            <option value="{{ $department->id }}"
+
+    <section class="content vh-100 gradient-custom">
+        <div class="container py-1 h-100">
+          <div class="row justify-content-center align-items-center h-100">
+            <div class="col-12 col-lg-12 col-xl-12">
+              <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                <div class="card-body p-4 p-md-5">
+                  <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 text-center text-primary">Add New User</h3>
+                  @include('messages.alerts')
+                  <form action="{{ route('admin.employees.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('POST')
+                    
+                   
+      
+                    <div class="card">
+                       
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 mb-4 pb-2">
+                
+                                    <div class="form-outline">
+                                      <input type="emp_id" id="emp_id" name="emp_id" value="{{old('emp_id')}}" class="form-control form-control" />
+                                      <label class="form-label" for="emp_id">Employee ID</label>
+                                      @error('emp_id')
+                                      <div class="text-danger">
+                                          {{ $message }}
+                                      </div>
+                                  @enderror
+                                    </div>
+                  
+                                  </div>
+
+                                  <div class="col-md-4 mb-4 pb-2">
+                
+                                    <div class="form-outline">
+                                        <select name="department_id" class="select form-control  text-center">
+                                            <option hidden disabled selected value>  -----Select an Option-----  </option>
+                                            @foreach ($departments as $department)
+                                            <option class="text-center" value="{{ $department->id }}"
                                                 @if (old('department_id') == $department->id)
-                                                    selected
+                                                selected
                                                 @endif    
-                                            >
-                                                {{ $department->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('department')
-                                    <div class="text-danger">
-                                        Please select a valid option
-                                    </div>
-                                @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="">First Name</label>
-                                    <input type="text" name="first_name" value="{{ old('first_name') }}" class="form-control">
-                                    @error('first_name')
-                                        <div class="text-danger">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Middle Name</label>
-                                    <input type="text" name="middle_name" value="{{ old('middle_name') }}" class="form-control">
-                                    @error('middle_name')
-                                        <div class="text-danger">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Last Name</label>
-                                    <input type="text" name="last_name" value="{{ old('last_name') }}" class="form-control">
-                                    @error('last_name')
-                                        <div class="text-danger">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Extension Name</label>
-                                    <input type="text" name="ext" value="{{ old('ext') }}" class="form-control">
-                                    @error('ext')
-                                        <div class="text-danger">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                             
-                                     {{-- <?php 
-                                     if (isset($_POST['gen'])) {
-                                         $len=8;
-                                         $result= '';
-                                        $ValidChar = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-                                       
-                                       while (0<$len--) {
-                                         $result.=$ValidChar[random_int(0, strlen($ValidChar)-1)];
-                                       }
-                                     }
-                                     ?> --}}
-                                {{-- <div class="form-group">
-                                    <div class="col-md-8">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h1>Temporary Password</h1>
-                                            </div>
-                                            <div class="card-body">
-                                    <form method="POST">
-                                        <input type="submit" name="submitPass" value="<?php echo($result); ?>" class="btn btn-primary">
-                                     </form><br>
-                                   
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> --}}
-                                <div class="form-group">
-                                    <label for="dob">Date of Birth</label>
-                                    <input type="text" name="dob" id="dob" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Gender</label>
-                                    <select name="sex" class="form-control">
-                                        <option hidden disabled selected value> -- Select an option -- </option>
-                                        @if (old('sex') == 'Male')
-                                        <option value="Male" selected>Male</option>
-                                        <option value="Female">Female</option>
-                                        @elseif (old('sex') == 'Female')
-                                        <option value="Male">Male</option>
-                                        <option value="Female" selected>Female</option>
-                                        @else
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                        @endif
-                                    </select>
-                                    @error('sex')
-                                        <div class="text-danger">
-                                            Please select an valid option
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="join_date">Join Date</label>
-                                    <input type="text" name="join_date" id="join_date" class="form-control">
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="">Designation</label>
-                                        <select name="desg" class="form-control">
-                                            <option hidden disabled selected value> -- Select an option -- </option>
-                                            @foreach ($desgs as $desg)
-                                                <option value="{{ $desg }}"
-                                                @if (old('desg') == $desg)
-                                                    selected
-                                                @endif
                                                 >
-                                                    {{ $desg }}
-                                                </option>
+                                                {{ $department->name }}
+                                            </option>                                         
                                             @endforeach
                                         </select>
-                                        @error('desg')
+                                        @error('department')
                                         <div class="text-danger">
-                                            Please select an valid option
+                                            Please select a valid option
                                         </div>
                                         @enderror
+                                        <label class="form-label select-label ">Department</label>
                                     </div>
+                  
+                                  </div>
 
-                                </div>
-                               
-                                {{-- <div class="form-group">
-                                    <label for="">Photo</label>
-                                    <input type="file" name="photo" class="form-control-file">
-                                    @error('photo')
+                                  <div class="col-md-4 mb-4 pb-2">
+                
+                                    <div class="form-outline">
+                                        <select name="desg" class="select form-control  text-center">
+                                            <option hidden disabled selected value>  -----Select an Option-----  </option>
+                                            @foreach ($desgs as $desg)
+                                            <option class="text-center" value="{{ $desg }}"
+                                                @if (old('desg') == $desg)
+                                                selected
+                                                @endif    
+                                                >
+                                                {{ $desg}}
+                                            </option>                                         
+                                            @endforeach
+                                        </select>
+                                        @error('department')
                                         <div class="text-danger">
-                                            {{ $message }}
+                                            Please select a valid option
                                         </div>
-                                    @enderror
-                                </div> --}}
-                                <div class="form-group">
-                                    <label for="">Password</label>
-                                    <input type="password" name="password" value="{{ old('password') }}" class="form-control">
+                                        @enderror
+                                        <label class="form-label select-label ">Position</label>
+                                    </div>
+                  
+                                  </div>
+                                  <div class="col-md-4 mb-4 pb-2">
+                
+                                    <div class="form-outline">
+                                      <input type="join_date" id="join_date" name="join_date" value="{{old('join_date')}}" class="form-control form-control" />
+                                      <label class="form-label" for="join_date">Join Date</label>
+                                    </div>
+                  
+                                  </div>
+                
+                                  <div class="col-md-4 mb-4 pb-2">
+                
+                                    <div class="form-outline">
+                                      <input type="dob" id="dob" name="dob" value="{{old('dob')}}" class="form-control form-control" />
+                                      <label class="form-label" for="dob">Birthday</label>
+                                    </div>
+                  
+                                  </div>
+
+                                  <div class="col-md-4 mb-4 pb-2">
+                
+                                    <div class="form-outline">
+                                        <select name="sex" class="select form-control text-center">
+                                            <option hidden disabled selected value>  -----Select an Option-----  </option>
+                                            @if (old('sex') == 'Male')
+                                                <option value="Male" selected>Male</option>
+                                                <option value="Female">Female</option>
+                                                @elseif (old('sex') == 'Female')
+                                                <option value="Male">Male</option>
+                                                <option value="Female" selected>Female</option>
+                                                @else
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                            @endif
+                                                                                   
+                                        </select>
+                                        @error('sex')
+                                        <div class="text-danger">
+                                            Please select a valid option
+                                        </div>
+                                        @enderror
+                                        <label class="form-label select-label ">Gender</label>
+                                    </div>
+                  
+                                  </div>
+                                  <div class="col-md-4 mb-4 pb-2">
+                
+                                    <div class="form-outline">
+                                      <input type="email" id="email" name="email" value="{{old('email')}}" class="form-control form-control" />
+                                      <label class="form-label" for="email">Email</label>
+                                      @error('email')
+                                      <div class="text-danger">
+                                          {{ $message }}
+                                      </div>
+                                  @enderror
+                                    </div>
+                  
+                                  </div>
+                                <div class="col-md-4 mb-4 pb-2">
+                
+                                  <div class="form-outline">
+                                    <input type="password" name="password" id="password" value="{{ old('password') }}" class="form-control form-control" />
+                                    <label class="form-label" for="password">Password</label>
                                     @error('password')
-                                        <div class="text-danger">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div> 
-                                <div class="form-group">
-                                    <label for="">Confirm Password</label>
-                                    <input type="password" name="password_confirmation" value="{{ old('password_confirmation') }}" class="form-control">
-                                    @error('password_confirmation')
-                                        <div class="text-danger">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
+                                    <div class="text-danger">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                                  </div>
+                
                                 </div>
-                            </fieldset>
+                                <div class="col-md-4 mb-4 pb-2">
+                
+                                    <div class="form-outline">
+                                      <input type="password" name="password_confirmation" id="password_confirmation" value="{{ old('password_confirmation') }}" class="form-control form-control" />
+                                      <label class="form-label" for="password_confirmation">Confirm Password</label>
+                                      @error('password_confirmation')
+                                        <div class="text-danger">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                    </div>
+                  
+                                  </div>
+                              </div>
+                                </div>
+
+                               
+                                   
+
+                               
                             
-                        
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+            
+                                  <div class="col-md-3 mb-4 pb-2">
+                  
+                                    <div class="form-outline">
+                                      <input type="text" name="first_name" id="first_name" value="{{ old('first_name') }}" class="form-control form-control" />
+                                      <label class="form-label" for="first_name">First Name</label>
+                                      @error('first_name')
+                                        <div class="text-danger">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                    </div>
+                  
+                                  </div>
+                                  <div class="col-md-3 mb-4 pb-2">
+                  
+                                    <div class="form-outline">
+                                      <input type="text" name="middle_name" id="middle_name" class="form-control form-control" />
+                                      <label class="form-label" for="middle_name">Middle Name</label>
+                                      @error('middle_name')
+                                        <div class="text-danger">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                    </div>
+                  
+                                  </div>
+                                  <div class="col-md-3 mb-4 pb-2">
+                  
+                                    <div class="form-outline">
+                                      <input type="text"  name="last_name" id="last_name" class="form-control form-control" />
+                                      <label class="form-label" for="last_name">Last Name</label>
+                                      @error('last_name')
+                                        <div class="text-danger">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                    </div>
+                                  </div>
+                                    <div class="col-md-2 mb-4 pb-2">
+                                    <div class="form-outline">
+                                        <input type="text"  name="ext" id="ext" class="form-control form-control" />
+                                        <label class="form-label" for="ext">Suffix</label>
+                                        @error('ext')
+                                          <div class="text-danger">
+                                              {{ $message }}
+                                          </div>
+                                      @enderror
+                                      </div>
+                                    </div>
+    
+                                  {{-- </div> --}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-2 text-center">
+                            <input class="btn btn-primary btn" type="submit" value="Submit" />
+                          </div>
                     </div>
-                    <div class="card-footer text-center">
-                        <button type="submit" class="btn btn-flat btn-primary" style="width: 40%; font-size:1.3rem">Add</button>
-                    </div>
-                </form>
+
+
+                  
+                    
+      
+                  </form>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
-        
-    </div>
+      </section>
     <!-- /.container-fluid -->
-</section>
+
 <!-- /.content -->
 
 <!-- /.content-wrapper -->

@@ -14,6 +14,7 @@
             rel="stylesheet"
             href="/plugins/fontawesome-free/css/all.min.css"
         />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/5.0.7/sweetalert2.min.css" rel="stylesheet">
         <!-- Ionicons -->
         <link
             rel="stylesheet"
@@ -73,16 +74,18 @@
             @yield('content')
         @else
         <body class="hold-transition sidebar-mini layout-fixed">
-
+            @include('sweetalert::alert')
             <div class="wrapper">
                 {{-- navbar include --}}
                 @include('includes.navbar')
                 @include('includes.main_sidebar')
                 <!-- Content Wrapper. Contains page content -->
                 <div class="content-wrapper">
+
                 @yield('content')
+                @include('sweetalert::alert')
                 </div>
-                <footer class="main-footer">
+                {{-- <footer class="main-footer">
                     <strong
                         >Copyright &copy; 2014-2019
                         <a href="http://adminlte.io">AdminLTE.io</a>.</strong
@@ -91,7 +94,7 @@
                     <div class="float-right d-none d-sm-inline-block">
                         <b>Version</b> 3.0.5
                     </div>
-                </footer>
+                </footer> --}}
                 <!-- Control Sidebar -->
                 <aside class="control-sidebar control-sidebar-dark">
                     <!-- Control sidebar content goes here -->
@@ -127,6 +130,30 @@
         {{-- <script src="https://use.fontawesome.com/2d4c4e3d51.js"></script> --}}
         <!-- AdminLTE for demo purposes -->
         <script src="/dist/js/demo.js"></script>
+        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script> --}}
+
+{{-- <script type="text/javascript">
+    $('.show-alert-delete-box').click(function(event){
+        var form =  $(this).closest("form");
+        var name = $(this).data("name");
+        event.preventDefault();
+        swal({
+            title: "Are you sure you want to delete this record?",
+            text: "If you delete this, it will be gone forever.",
+            icon: "warning",
+            type: "warning",
+            buttons: ["Cancel","Yes!"],
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((willDelete) => {
+            if (willDelete) {
+                form.submit();
+            }
+        });
+    });
+</script> --}}
         <!-- DataTables -->
         <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
